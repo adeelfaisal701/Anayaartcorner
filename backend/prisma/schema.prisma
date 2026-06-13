@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum PortraitStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Artwork {
+  id           String   @id @default(cuid())
+  title        String
+  description  String?
+  imageUrl     String
+  cloudinaryId String?
+  price        Decimal? @db.Decimal(10, 2)
+  featured     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model PortraitRequest {
+  id           String         @id @default(cuid())
+  clientName   String
+  clientEmail  String
+  description  String
+  referenceUrl String?
+  status       PortraitStatus @default(PENDING)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Exec(ls)",
+      "Exec(Get-ChildItem)",
+      "Exec(npx)",
+      "Exec(mkdir lib)",
+      "Exec(dir)"
+    ]
+  }
+}
