@@ -1,106 +1,58 @@
 # Anaya Art Gallery
 
-Premium Art Gallery & Custom Portraits — full-stack monorepo.
+Premium Art Gallery & Custom Portraits — Frontend Website.
+
+This project is a standalone, client-side Next.js web application. It allows users to browse custom portrait categories, featured paintings, and pricing. All contact and order inquiries are submitted directly via WhatsApp redirect messages or email links, eliminating the need for a database or backend server.
 
 ## Stack
 
-| Layer | Tech |
-|-------|------|
-| Frontend | Next.js 16, TypeScript, Tailwind CSS, Shadcn UI, Zustand, Axios |
-| Backend | NestJS, PostgreSQL, Prisma, JWT, Cloudinary, Swagger |
+- **Framework**: Next.js (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS / Vanilla CSS
+- **State Management**: Zustand
+- **Animations**: Framer Motion
+- **Toasts**: Sonner
 
 ## Prerequisites
 
 - Node.js 20+
 - npm
-- Docker Desktop (for local PostgreSQL)
 
-## Quick start
+## Getting Started
 
-### 1. Start PostgreSQL
+### 1. Installation
 
-**Option A — Docker (recommended for production-like setup):**
-
-```bash
-docker compose up -d
-```
-
-Use in `backend/.env`:
-```env
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/anaya_gallery?schema=public
-```
-
-**Option B — No Docker (Prisma local dev DB):**
-
-```bash
-cd backend
-npx prisma dev -d
-npx prisma dev ls    # copy the TCP postgres:// URL port
-```
-
-Set `backend/.env` to that URL with `sslmode=disable`, then:
-
-```bash
-npx prisma db push
-```
-
-Example:
-```env
-DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:51214/template1?sslmode=disable
-```
-
-### Troubleshooting
-
-**"Another next dev server is already running" / port 3000 in use:**
-
-Only one Next.js dev server can run per project folder. Stop the old one:
-
-```powershell
-# Find what's on port 3000
-netstat -ano | findstr ":3000"
-
-# Kill the PID (replace 12345 with the actual PID)
-taskkill /PID 12345 /F
-```
-
-Then start again: `cd frontend && npm run dev`
-
-### 2. Backend
-
-```bash
-cd backend
-cp .env.example .env
-# Fill in JWT secrets and Cloudinary credentials in .env
-npm install
-npx prisma migrate dev
-npm run start:dev
-```
-
-API: http://localhost:4000/api/v1  
-Swagger: http://localhost:4000/docs
-
-### 3. Frontend
+Navigate to the `frontend/` directory and install the dependencies:
 
 ```bash
 cd frontend
-cp .env.example .env.local
 npm install
+```
+
+### 2. Configuration
+
+Create a `.env.local` file inside the `frontend/` directory:
+
+```bash
+cp .env.example .env.local
+```
+
+### 3. Run Development Server
+
+Start the Next.js development server:
+
+```bash
 npm run dev
 ```
 
-App: http://localhost:3000
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Scripts
+## Build for Production
 
-| Location | Command | Description |
-|----------|---------|-------------|
-| `frontend/` | `npm run dev` | Start Next.js dev server |
-| `frontend/` | `npm run lint` | ESLint |
-| `frontend/` | `npm run format` | Prettier write |
-| `backend/` | `npm run start:dev` | NestJS watch mode |
-| `backend/` | `npm run lint` | ESLint |
-| `backend/` | `npm run format` | Prettier write |
+To build the project for production:
 
-## Environment
+```bash
+npm run build
+```
 
-See `frontend/.env.example` and `backend/.env.example` for required variables.
+This will output a optimized, production-ready bundle.

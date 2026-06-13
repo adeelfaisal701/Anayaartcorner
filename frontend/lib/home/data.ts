@@ -88,7 +88,7 @@ export const steps = [
 export const stats = [
   { value: "500+", label: "Happy Clients" },
   { value: "1000+", label: "Artworks Completed" },
-  { value: "5+", label: "Years Experience" },
+  { value: "40+", label: "Years Experience" },
   { value: "100%", label: "Satisfaction" },
 ];
 

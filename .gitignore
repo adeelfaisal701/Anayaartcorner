@@ -12,9 +12,6 @@ build/
 .next/
 out/
 
-# database
-pgdata/
-
 # logs & debug
 *.log
 npm-debug.log*
@@ -28,6 +25,3 @@ npm-debug.log*
 # typescript
 *.tsbuildinfo
 
-# prisma
-backend/prisma/*.db
-backend/prisma/*.db-journal
