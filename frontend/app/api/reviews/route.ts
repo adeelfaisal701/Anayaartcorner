@@ -1,12 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getReviews, addReview, updateReview, deleteReview, Review } from "@/lib/reviews-store";
 
+export const dynamic = "force-dynamic";
+
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "anaya123";
 
-// Helper to verify admin credentials
-function verifyAdmin(request: NextRequest): boolean {
+// Helper to verify admin credentials with logging
+function verifyAdmin(request: NextRequest, actionName: string): boolean {
   const password = request.headers.get("x-admin-password");
-  return password === ADMIN_PASSWORD;
+  const isMatch = password === ADMIN_PASSWORD;
+  const ip = request.ip || request.headers.get("x-forwarded-for") || "unknown";
+
+  if (!isMatch) {
+    console.warn(
+      `[AUTH WARNING] Unauthorized admin action attempt: ${actionName}. ` +
+      `IP: ${ip}, ` +
+      `Header present: ${password !== null}, ` +
+      `Password length: ${password ? password.length : 0}`
+    );
+  } else {
+    console.log(`[AUTH INFO] Authorized admin action: ${actionName} from IP: ${ip}`);
+  }
+
+  return isMatch;
 }
 
 // GET: Fetch reviews
@@ -15,14 +31,22 @@ function verifyAdmin(request: NextRequest): boolean {
 export async function GET(request: NextRequest) {
   try {
     const reviews = await getReviews();
-    const isAdmin = verifyAdmin(request);
+    const hasPasswordHeader = request.headers.has("x-admin-password");
 
-    if (isAdmin) {
-      return NextResponse.json({ success: true, reviews });
-    } else {
-      const approvedReviews = reviews.filter((r) => r.status === "approved");
-      return NextResponse.json({ success: true, reviews: approvedReviews });
+    if (hasPasswordHeader) {
+      const isAdmin = verifyAdmin(request, "GET_REVIEWS_ADMIN");
+      if (isAdmin) {
+        return NextResponse.json({ success: true, reviews });
+      } else {
+        return NextResponse.json(
+          { success: false, error: "Unauthorized: Invalid admin password" },
+          { status: 401 }
+        );
+      }
     }
+
+    const approvedReviews = reviews.filter((r) => r.status === "approved");
+    return NextResponse.json({ success: true, reviews: approvedReviews });
   } catch (error: any) {
     console.error("API GET Error:", error);
     return NextResponse.json(
@@ -94,8 +118,8 @@ export async function POST(request: NextRequest) {
 // PUT: Update review (approve/reject, edit) - admin only
 export async function PUT(request: NextRequest) {
   try {
-    if (!verifyAdmin(request)) {
-      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    if (!verifyAdmin(request, "PUT_UPDATE_REVIEW")) {
+      return NextResponse.json({ success: false, error: "Unauthorized: Invalid admin password" }, { status: 401 });
     }
 
     const body = await request.json();
@@ -157,8 +181,8 @@ export async function PUT(request: NextRequest) {
 // DELETE: Remove review - admin only
 export async function DELETE(request: NextRequest) {
   try {
-    if (!verifyAdmin(request)) {
-      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    if (!verifyAdmin(request, "DELETE_REVIEW")) {
+      return NextResponse.json({ success: false, error: "Unauthorized: Invalid admin password" }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
