@@ -1,4 +1,4 @@
-﻿
+
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
   --gold:#c8962a;--gold-light:#e8b84b;--gold-pale:#fdf0d5;
@@ -154,16 +154,29 @@ section{padding:80px 60px}
 
 /* â”€â”€ REVIEWS â”€â”€ */
 #reviews{background:var(--cream2)}
-.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.rev-card{background:white;border:1px solid var(--border);border-radius:12px;padding:26px;position:relative}
-.rev-card::after{content:'"';font-family:'Playfair Display',serif;font-size:4rem;color:var(--gold);opacity:.15;position:absolute;top:8px;right:18px;line-height:1}
-.rev-stars{display:flex;gap:2px;margin-bottom:12px}
-.rev-stars span{color:var(--gold);font-size:.9rem}
-.rev-text{font-size:.85rem;color:var(--muted);line-height:1.8;margin-bottom:18px;font-style:italic}
-.reviewer{display:flex;align-items:center;gap:10px}
-.rev-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:white;flex-shrink:0}
-.rev-name{font-size:.84rem;font-weight:600;color:var(--dark)}
-.rev-loc{font-size:.7rem;color:var(--muted)}
+.rev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch;max-width:1200px;margin:0 auto;animation:fadeIn 0.5s ease-out forwards}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rev-card{background:white;border:1px solid var(--border);border-radius:10px;padding:18px;position:relative;display:flex;flex-direction:column;justify-content:space-between;height:100%}
+.rev-card::after{content:'"';font-family:'Playfair Display',serif;font-size:2.8rem;color:var(--gold);opacity:.12;position:absolute;top:4px;right:14px;line-height:1}
+.rev-stars{display:flex;gap:2px;margin-bottom:8px}
+.rev-stars span{color:var(--gold);font-size:0.8rem}
+.rev-text{font-size:0.78rem;color:var(--muted);line-height:1.5;margin-bottom:10px;font-style:italic;flex-grow:1}
+.reviewer{display:flex;align-items:center;gap:8px}
+.rev-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;color:white;flex-shrink:0}
+.rev-name{font-size:0.8rem;font-weight:600;color:var(--dark)}
+.rev-loc{font-size:0.65rem;color:var(--muted)}
+
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /* â”€â”€ CONTACT â”€â”€ */
 #contact{background:white}
@@ -231,6 +244,61 @@ footer{background:var(--dark2);padding:52px 60px 0}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 
+/* —— REVIEWS CONTROLS —— */
+.rev-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.rev-sort-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.rev-sort-group label {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+.rev-sort-group select {
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: .3s;
+}
+.rev-sort-group select:focus {
+  border-color: var(--gold);
+  background: white;
+}
+.rev-admin-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.3s;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+.rev-admin-link:hover {
+  color: var(--gold);
+}
+
 /* â”€â”€ RESPONSIVE â”€â”€ */
 @media(max-width:960px){
   nav{padding:0 20px}.nav-links{display:none}
@@ -243,6 +311,7 @@ footer{background:var(--dark2);padding:52px 60px 0}
   .rev-grid{grid-template-columns:1fr}.contact-inner{grid-template-columns:1fr}
   .ft-grid{grid-template-columns:1fr 1fr}.f-row{grid-template-columns:1fr}
   .cart-sidebar{width:100%}
+  .rev-controls { flex-direction: column; align-items: center; justify-content: center; }
 }
 @media(max-width:560px){
   .cats{grid-template-columns:1fr 1fr}.art-grid{grid-template-columns:1fr}

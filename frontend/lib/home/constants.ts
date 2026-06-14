@@ -14,5 +14,6 @@ export const NAV_SECTIONS = [
   { id: "pricing", label: "Pricing" },
   { id: "how", label: "Custom Portraits" },
   { id: "about", label: "About Us" },
+  { id: "reviews", label: "Reviews" },
   { id: "contact", label: "Contact" },
 ] as const;

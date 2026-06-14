@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { useReveal } from "@/hooks/use-reveal";
 import {
@@ -24,6 +25,9 @@ import {
 } from "@/lib/home/data";
 import { OrderModal } from "./order-modal";
 import { Toast } from "./toast";
+import { SubmitReviewModal } from "./submit-review-modal";
+import { AdminPanel } from "./admin-panel";
+import { Review } from "@/lib/reviews-store";
 
 function scrollToSection(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -348,6 +352,41 @@ function StatsSection() {
 }
 
 function ReviewsSection() {
+  const [reviewsList, setReviewsList] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [sortBy, setSortBy] = useState<"newest" | "oldest" | "highest" | "lowest">("newest");
+  const [submitModalOpen, setSubmitModalOpen] = useState(false);
+  const [adminPanelOpen, setAdminPanelOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(3);
+
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch("/api/reviews");
+      const data = await response.json();
+      if (data.success) {
+        setReviewsList(data.reviews);
+      }
+    } catch (error) {
+      console.error("Failed to fetch reviews:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+  const sortedReviews = [...reviewsList].sort((a, b) => {
+    if (sortBy === "highest") return b.rating - a.rating;
+    if (sortBy === "lowest") return a.rating - b.rating;
+    if (sortBy === "newest") return new Date(b.date).getTime() - new Date(a.date).getTime();
+    if (sortBy === "oldest") return new Date(a.date).getTime() - new Date(b.date).getTime();
+    return 0;
+  });
+
+  const homepageReviews = sortedReviews.slice(0, visibleCount);
+
   return (
     <section id="reviews">
       <div className="sec-head reveal">
@@ -356,27 +395,122 @@ function ReviewsSection() {
           <h2 style={{ fontFamily: "'Dancing Script', cursive", fontSize: "2rem" }}>What Our Customers Say</h2>
         </div>
       </div>
-      <div className="rev-grid reveal">
-        {reviews.map((review) => (
-          <div key={review.name} className="rev-card">
-            <div className="rev-stars">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <span key={i}>★</span>
-              ))}
-            </div>
-            <p className="rev-text">&ldquo;{review.text}&rdquo;</p>
-            <div className="reviewer">
-              <div className="rev-av" style={{ background: review.color }}>
-                {review.initials}
-              </div>
-              <div>
-                <div className="rev-name">{review.name}</div>
-                <div className="rev-loc">{review.location}</div>
-              </div>
-            </div>
-          </div>
-        ))}
+
+      {/* Filtering and Sorting Controls */}
+      <div className="rev-controls" style={{ marginBottom: 32 }}>
+        <div className="rev-sort-group">
+          <label htmlFor="sort-select">Sort By: </label>
+          <select
+            id="sort-select"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as any)}
+          >
+            <option value="newest">Newest Reviews</option>
+            <option value="oldest">Oldest Reviews</option>
+            <option value="highest">Highest Rating</option>
+            <option value="lowest">Lowest Rating</option>
+          </select>
+        </div>
+        <button
+          type="button"
+          className="btn-gold"
+          onClick={() => setSubmitModalOpen(true)}
+        >
+          Write a Review
+        </button>
       </div>
+
+      {loading ? (
+        <p style={{ textAlign: "center", color: "var(--muted)", padding: "40px 0" }}>Loading reviews...</p>
+      ) : sortedReviews.length === 0 ? (
+        <p style={{ textAlign: "center", color: "var(--muted)", padding: "40px 0" }}>No reviews yet. Be the first customer to share your experience.</p>
+      ) : (
+        <div className="rev-grid">
+          {homepageReviews.map((review) => (
+            <div key={review.id} className="rev-card">
+              <div className="rev-stars">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <span key={i} style={{ color: i < review.rating ? "var(--gold)" : "#ddd6cc" }}>
+                    ★
+                  </span>
+                ))}
+              </div>
+              <p className="rev-text line-clamp-4">&ldquo;{review.text}&rdquo;</p>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" }}>
+                <div className="reviewer">
+                  {review.photo ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={review.photo}
+                      alt={review.name}
+                      className="rev-av"
+                      style={{ objectFit: "cover" }}
+                    />
+                  ) : (
+                    <div className="rev-av" style={{ background: review.color }}>
+                      {review.initials}
+                    </div>
+                  )}
+                  <div>
+                    <div className="rev-name">{review.name}</div>
+                    <div className="rev-loc">{review.location || "Verified Client"}</div>
+                  </div>
+                </div>
+                <div className="rev-date" style={{ fontSize: "0.68rem", color: "var(--muted)" }}>
+                  {new Date(review.date).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Testimonials Actions */}
+      {reviewsList.length > 0 && (
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 32 }}>
+          {visibleCount < sortedReviews.length ? (
+            <button
+              type="button"
+              className="btn-gold"
+              onClick={() => setVisibleCount((prev) => prev + 3)}
+            >
+              Show More Reviews
+            </button>
+          ) : (
+            <Link href="/reviews" className="btn-gold" style={{ textDecoration: "none" }}>
+              View All Reviews ({reviewsList.length})
+            </Link>
+          )}
+        </div>
+      )}
+
+      {/* Admin Access Link */}
+      <div style={{ textAlign: "center", marginTop: 40 }}>
+        <button
+          type="button"
+          className="rev-admin-link"
+          onClick={() => setAdminPanelOpen(true)}
+        >
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ marginRight: 6 }}>
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          Admin Panel Access
+        </button>
+      </div>
+
+      {/* Modals */}
+      <SubmitReviewModal
+        open={submitModalOpen}
+        onClose={() => setSubmitModalOpen(false)}
+        onSuccess={fetchReviews}
+      />
+      
+      <AdminPanel
+        open={adminPanelOpen}
+        onClose={() => setAdminPanelOpen(false)}
+        onRefreshReviews={fetchReviews}
+      />
     </section>
   );
 }
