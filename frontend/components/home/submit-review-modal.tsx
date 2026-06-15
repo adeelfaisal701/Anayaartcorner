@@ -27,7 +27,7 @@ export function SubmitReviewModal({ open, onClose, onSuccess }: SubmitReviewModa
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoName, setPhotoName] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  
+
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -51,13 +51,13 @@ export function SubmitReviewModal({ open, onClose, onSuccess }: SubmitReviewModa
 
   const handlePhotoUpload = (file: File | undefined) => {
     if (!file) return;
-    
+
     // Validate size (max 2MB to keep Base64 storage reasonable)
     if (file.size > 2 * 1024 * 1024) {
       toast.error("Photo is too large! Max size is 2MB.");
       return;
     }
-    
+
     const reader = new FileReader();
     reader.onload = (event) => {
       setPhotoPreview(String(event.target?.result ?? ""));
@@ -148,7 +148,11 @@ export function SubmitReviewModal({ open, onClose, onSuccess }: SubmitReviewModa
 
   return (
     <div className={`modal-bg open`} onClick={onClose} style={{ display: "flex" }}>
-      <div className="modal-box" onClick={(e) => e.stopPropagation()} style={{ maxHeight: "90vh", overflowY: "auto" }}>
+      <div
+        className="modal-box"
+        onClick={(e) => e.stopPropagation()}
+        style={{ maxHeight: "90vh", overflowY: "auto" }}
+      >
         <div className="modal-head">
           <h3>Submit a Customer Review</h3>
           <button type="button" className="modal-close-btn" onClick={onClose} aria-label="Close">
@@ -210,7 +214,12 @@ export function SubmitReviewModal({ open, onClose, onSuccess }: SubmitReviewModa
           <div className="f-group">
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <label htmlFor="r_text">Review Message *</label>
-              <span style={{ fontSize: "0.65rem", color: text.length > 450 ? "var(--destructive)" : "var(--muted)" }}>
+              <span
+                style={{
+                  fontSize: "0.65rem",
+                  color: text.length > 450 ? "var(--destructive)" : "var(--muted)",
+                }}
+              >
                 {text.length} / 500
               </span>
             </div>
@@ -235,7 +244,14 @@ export function SubmitReviewModal({ open, onClose, onSuccess }: SubmitReviewModa
               tabIndex={0}
               style={{ padding: "16px 20px" }}
             >
-              <p style={{ margin: "4px 0 2px", fontSize: ".82rem", color: "#3a2e1a", fontWeight: 600 }}>
+              <p
+                style={{
+                  margin: "4px 0 2px",
+                  fontSize: ".82rem",
+                  color: "#3a2e1a",
+                  fontWeight: 600,
+                }}
+              >
                 Click to upload an image
               </p>
               <p style={{ fontSize: ".7rem", color: "#7a6a50" }}>JPG, PNG, WEBP — max 2MB</p>

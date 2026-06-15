@@ -1,4 +1,10 @@
-export function Toast({ message, type = "success" }: { message: string; type?: "success" | "info" }) {
+export function Toast({
+  message,
+  type = "success",
+}: {
+  message: string;
+  type?: "success" | "info";
+}) {
   return (
     <div
       className="toast show"

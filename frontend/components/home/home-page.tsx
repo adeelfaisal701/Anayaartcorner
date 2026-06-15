@@ -34,17 +34,63 @@ function scrollToSection(id: string) {
 
 function BrandLogo() {
   return (
-    <svg viewBox="0 0 120 52" xmlns="http://www.w3.org/2000/svg" width="180" height="52" aria-hidden>
-      <path d="M22 10 A16 16 0 1 0 22 42 A11 11 0 1 1 22 10Z" fill="none" stroke="#C8962A" strokeWidth="1.8" />
-      <line x1="34" y1="8" x2="14" y2="44" stroke="#C8962A" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M34 8 Q30 20 22 32 Q18 38 14 44" fill="none" stroke="#C8962A" strokeWidth="1" opacity="0.55" />
-      <path d="M14 44 Q20 36 28 22 Q32 14 34 8" fill="none" stroke="#C8962A" strokeWidth="0.9" opacity="0.35" />
+    <svg
+      viewBox="0 0 120 52"
+      xmlns="http://www.w3.org/2000/svg"
+      width="180"
+      height="52"
+      aria-hidden
+    >
+      <path
+        d="M22 10 A16 16 0 1 0 22 42 A11 11 0 1 1 22 10Z"
+        fill="none"
+        stroke="#C8962A"
+        strokeWidth="1.8"
+      />
+      <line
+        x1="34"
+        y1="8"
+        x2="14"
+        y2="44"
+        stroke="#C8962A"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M34 8 Q30 20 22 32 Q18 38 14 44"
+        fill="none"
+        stroke="#C8962A"
+        strokeWidth="1"
+        opacity="0.55"
+      />
+      <path
+        d="M14 44 Q20 36 28 22 Q32 14 34 8"
+        fill="none"
+        stroke="#C8962A"
+        strokeWidth="0.9"
+        opacity="0.35"
+      />
       <circle cx="14" cy="44" r="1.6" fill="#C8962A" />
       <line x1="48" y1="10" x2="48" y2="42" stroke="#C8962A" strokeWidth="0.8" opacity="0.4" />
-      <text x="56" y="28" fontFamily="'Dancing Script', cursive" fontSize="22" fill="#1a1008" fontWeight="700">
+      <text
+        x="56"
+        y="28"
+        fontFamily="'Dancing Script', cursive"
+        fontSize="22"
+        fill="#1a1008"
+        fontWeight="700"
+      >
         Anaya
       </text>
-      <text x="57" y="39" fontFamily="Inter, sans-serif" fontSize="7" fill="#C8962A" fontWeight="600" letterSpacing="3">
+      <text
+        x="57"
+        y="39"
+        fontFamily="Inter, sans-serif"
+        fontSize="7"
+        fill="#C8962A"
+        fontWeight="600"
+        letterSpacing="3"
+      >
         ART CORNER
       </text>
     </svg>
@@ -59,7 +105,14 @@ interface HomePageProps {
 function HomeNav({ activeSection }: { activeSection: string }) {
   return (
     <nav id="navbar" className={undefined}>
-      <a className="logo" href="#" onClick={(e) => { e.preventDefault(); scrollToSection("hero"); }}>
+      <a
+        className="logo"
+        href="#"
+        onClick={(e) => {
+          e.preventDefault();
+          scrollToSection("hero");
+        }}
+      >
         <BrandLogo />
       </a>
       <ul className="nav-links">
@@ -102,11 +155,15 @@ function HeroSection({ onOpenModal }: Pick<HomePageProps, "onOpenModal">) {
           From the <span className="script">Heart</span>
         </h1>
         <p className="hero-desc">
-          Custom portraits, beautiful paintings &amp; Islamic calligraphy — made with passion, precision &amp;
-          dedication.
+          Custom portraits, beautiful paintings &amp; Islamic calligraphy — made with passion,
+          precision &amp; dedication.
         </p>
         <div className="hero-btns">
-          <button type="button" className="btn-gold" onClick={() => onOpenModal("Custom Portrait Order")}>
+          <button
+            type="button"
+            className="btn-gold"
+            onClick={() => onOpenModal("Custom Portrait Order")}
+          >
             Order Custom Portrait
           </button>
           <button type="button" className="btn-outline" onClick={() => scrollToSection("featured")}>
@@ -131,9 +188,28 @@ function HeroSection({ onOpenModal }: Pick<HomePageProps, "onOpenModal">) {
         </div>
       </div>
       <div className="hero-imgs">
-        <Image src={homeImage(1)} alt="Featured artwork" className="hero-main" width={460} height={345} priority />
-        <Image src={homeImage(2)} alt="Portrait sample" className="hero-float l" width={150} height={200} />
-        <Image src={homeImage(3)} alt="Artwork sample" className="hero-float r" width={130} height={173} />
+        <Image
+          src={homeImage(1)}
+          alt="Featured artwork"
+          className="hero-main"
+          width={460}
+          height={345}
+          priority
+        />
+        <Image
+          src={homeImage(2)}
+          alt="Portrait sample"
+          className="hero-float l"
+          width={150}
+          height={200}
+        />
+        <Image
+          src={homeImage(3)}
+          alt="Artwork sample"
+          className="hero-float r"
+          width={130}
+          height={173}
+        />
       </div>
     </section>
   );
@@ -144,7 +220,9 @@ function CategoriesSection() {
     <section id="categories">
       <div className="sec-head reveal">
         <div className="divider-line">
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem" }}>Browse Categories</h2>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.5rem" }}>
+            Browse Categories
+          </h2>
         </div>
       </div>
       <div className="cats reveal">
@@ -178,7 +256,11 @@ function FeaturedSection({ onOpenModal }: Pick<HomePageProps, "onOpenModal">) {
       </div>
       <div className="art-grid reveal">
         {artworks.map((art) => (
-          <div key={art.name} className="art-card" onClick={() => onOpenModal(`Order: ${art.name}`)}>
+          <div
+            key={art.name}
+            className="art-card"
+            onClick={() => onOpenModal(`Order: ${art.name}`)}
+          >
             <div className="art-img-wrap">
               <Image src={art.image} alt={art.name} className="art-img" width={400} height={300} />
               {art.badge ? <span className="art-badge">{art.badge}</span> : null}
@@ -229,7 +311,11 @@ function PricingSection({ onOpenModal }: Pick<HomePageProps, "onOpenModal">) {
                 <li key={feature}>{feature}</li>
               ))}
             </ul>
-            <button type="button" className="price-order-btn" onClick={() => onOpenModal("Order Artwork", tier.orderValue)}>
+            <button
+              type="button"
+              className="price-order-btn"
+              onClick={() => onOpenModal("Order Artwork", tier.orderValue)}
+            >
               Order This Size
             </button>
           </div>
@@ -271,7 +357,10 @@ function HowSection() {
             <br />
             Portrait?
           </h3>
-          <p>Turn your precious memories into timeless art. One photo is all we need to create something extraordinary.</p>
+          <p>
+            Turn your precious memories into timeless art. One photo is all we need to create
+            something extraordinary.
+          </p>
           <a
             href={`${WHATSAPP_URL}?text=${encodeURIComponent("Hi Anaya! I want to order a custom portrait.")}`}
             target="_blank"
@@ -291,7 +380,13 @@ function AboutSection() {
     <section id="about">
       <div className="about-inner">
         <div className="about-img-wrap reveal">
-          <Image src={homeImage(30)} className="about-main" alt="The Artist" width={500} height={625} />
+          <Image
+            src={homeImage(30)}
+            className="about-main"
+            alt="The Artist"
+            width={500}
+            height={625}
+          />
           <div className="about-frame" />
           <div className="about-badge">
             <div className="num">40+</div>
@@ -300,18 +395,31 @@ function AboutSection() {
         </div>
         <div className="reveal">
           <p className="eyebrow">About The Artist</p>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: "2.2rem", color: "var(--dark)", marginBottom: 16 }}>
+          <h2
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "2.2rem",
+              color: "var(--dark)",
+              marginBottom: 16,
+            }}
+          >
             Passion, Precision
-            <br />&amp; <em style={{ fontStyle: "italic", color: "var(--gold)" }}>Dedication</em>
+            <br />
+            &amp; <em style={{ fontStyle: "italic", color: "var(--gold)" }}>Dedication</em>
           </h2>
           <div style={{ width: 48, height: 2, background: "var(--gold)", marginBottom: 20 }} />
-          <p className="about-text" style={{ fontSize: ".9rem", color: "var(--muted)", lineHeight: 1.85, marginBottom: 14 }}>
-            With years of experience, we create realistic portraits, wildlife art, Islamic calligraphy and many more.
-            Every brush stroke is made with passion, dedication and love.
+          <p
+            className="about-text"
+            style={{ fontSize: ".9rem", color: "var(--muted)", lineHeight: 1.85, marginBottom: 14 }}
+          >
+            With years of experience, we create realistic portraits, wildlife art, Islamic
+            calligraphy and many more. Every brush stroke is made with passion, dedication and love.
           </p>
-          <p style={{ fontSize: ".9rem", color: "var(--muted)", lineHeight: 1.85, marginBottom: 14 }}>
-            Based at {ADDRESS}, Anaya Art Corner has delivered over 1,000 artworks to happy clients across the country
-            and internationally.
+          <p
+            style={{ fontSize: ".9rem", color: "var(--muted)", lineHeight: 1.85, marginBottom: 14 }}
+          >
+            Based at {ADDRESS}, Anaya Art Corner has delivered over 1,000 artworks to happy clients
+            across the country and internationally.
           </p>
           <div className="sig">Anaya</div>
           <div className="feats">
@@ -394,7 +502,9 @@ function ReviewsSection() {
       <div className="sec-head reveal">
         <p className="eyebrow">Testimonials</p>
         <div className="divider-line">
-          <h2 style={{ fontFamily: "'Dancing Script', cursive", fontSize: "2rem" }}>What Our Customers Say</h2>
+          <h2 style={{ fontFamily: "'Dancing Script', cursive", fontSize: "2rem" }}>
+            What Our Customers Say
+          </h2>
         </div>
       </div>
 
@@ -405,7 +515,9 @@ function ReviewsSection() {
           <select
             id="sort-select"
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as "newest" | "oldest" | "highest" | "lowest")}
+            onChange={(e) =>
+              setSortBy(e.target.value as "newest" | "oldest" | "highest" | "lowest")
+            }
           >
             <option value="newest">Newest Reviews</option>
             <option value="oldest">Oldest Reviews</option>
@@ -413,19 +525,19 @@ function ReviewsSection() {
             <option value="lowest">Lowest Rating</option>
           </select>
         </div>
-        <button
-          type="button"
-          className="btn-gold"
-          onClick={() => setSubmitModalOpen(true)}
-        >
+        <button type="button" className="btn-gold" onClick={() => setSubmitModalOpen(true)}>
           Write a Review
         </button>
       </div>
 
       {loading ? (
-        <p style={{ textAlign: "center", color: "var(--muted)", padding: "40px 0" }}>Loading reviews...</p>
+        <p style={{ textAlign: "center", color: "var(--muted)", padding: "40px 0" }}>
+          Loading reviews...
+        </p>
       ) : sortedReviews.length === 0 ? (
-        <p style={{ textAlign: "center", color: "var(--muted)", padding: "40px 0" }}>No reviews yet. Be the first customer to share your experience.</p>
+        <p style={{ textAlign: "center", color: "var(--muted)", padding: "40px 0" }}>
+          No reviews yet. Be the first customer to share your experience.
+        </p>
       ) : (
         <div className="rev-grid">
           {homepageReviews.map((review) => (
@@ -438,7 +550,14 @@ function ReviewsSection() {
                 ))}
               </div>
               <p className="rev-text line-clamp-4">&ldquo;{review.text}&rdquo;</p>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "flex-end",
+                  width: "100%",
+                }}
+              >
                 <div className="reviewer">
                   {review.photo ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -459,7 +578,11 @@ function ReviewsSection() {
                   </div>
                 </div>
                 <div className="rev-date" style={{ fontSize: "0.68rem", color: "var(--muted)" }}>
-                  {new Date(review.date).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}
+                  {new Date(review.date).toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
                 </div>
               </div>
             </div>
@@ -488,12 +611,16 @@ function ReviewsSection() {
 
       {/* Admin Access Link */}
       <div style={{ textAlign: "center", marginTop: 40 }}>
-        <button
-          type="button"
-          className="rev-admin-link"
-          onClick={() => setAdminPanelOpen(true)}
-        >
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ marginRight: 6 }}>
+        <button type="button" className="rev-admin-link" onClick={() => setAdminPanelOpen(true)}>
+          <svg
+            viewBox="0 0 24 24"
+            width="12"
+            height="12"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            style={{ marginRight: 6 }}
+          >
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
             <path d="M7 11V7a5 5 0 0 1 10 0v4" />
           </svg>
@@ -507,7 +634,7 @@ function ReviewsSection() {
         onClose={() => setSubmitModalOpen(false)}
         onSuccess={fetchReviews}
       />
-      
+
       <AdminPanel
         open={adminPanelOpen}
         onClose={() => setAdminPanelOpen(false)}
@@ -553,15 +680,16 @@ function ContactSection({ onShowToast }: Pick<HomePageProps, "onShowToast">) {
         <p className="eyebrow">Get In Touch</p>
         <div className="divider-line">
           <h2>
-            Let&apos;s Create Something <em style={{ fontStyle: "italic", color: "var(--gold)" }}>Beautiful</em>
+            Let&apos;s Create Something{" "}
+            <em style={{ fontStyle: "italic", color: "var(--gold)" }}>Beautiful</em>
           </h2>
         </div>
       </div>
       <div className="contact-inner">
         <div className="contact-left reveal">
           <p>
-            Ready to turn your memories into a masterpiece? Fill the form or contact us directly on WhatsApp for a quick
-            response.
+            Ready to turn your memories into a masterpiece? Fill the form or contact us directly on
+            WhatsApp for a quick response.
           </p>
           <div className="c-rows">
             <div className="c-row">
@@ -589,12 +717,19 @@ function ContactSection({ onShowToast }: Pick<HomePageProps, "onShowToast">) {
                 </svg>
               </div>
               <div>
-                <p style={{ fontSize: ".85rem", color: "var(--muted)", marginBottom: 4 }}>{ADDRESS}</p>
+                <p style={{ fontSize: ".85rem", color: "var(--muted)", marginBottom: 4 }}>
+                  {ADDRESS}
+                </p>
                 <a
                   href={MAPS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ fontSize: ".75rem", color: "var(--gold)", fontWeight: 600, textDecoration: "none" }}
+                  style={{
+                    fontSize: ".75rem",
+                    color: "var(--gold)",
+                    fontWeight: 600,
+                    textDecoration: "none",
+                  }}
                 >
                   Open in Google Maps →
                 </a>
@@ -642,9 +777,18 @@ function ContactSection({ onShowToast }: Pick<HomePageProps, "onShowToast">) {
           </div>
           <div className="f-group">
             <label htmlFor="c_msg">Message</label>
-            <textarea id="c_msg" name="message" rows={4} placeholder="Describe your artwork idea, reference photo details..." />
+            <textarea
+              id="c_msg"
+              name="message"
+              rows={4}
+              placeholder="Describe your artwork idea, reference photo details..."
+            />
           </div>
-          <button type="submit" className="btn-gold" style={{ justifyContent: "center", width: "100%" }}>
+          <button
+            type="submit"
+            className="btn-gold"
+            style={{ justifyContent: "center", width: "100%" }}
+          >
             Send via WhatsApp
           </button>
         </form>
@@ -655,7 +799,10 @@ function ContactSection({ onShowToast }: Pick<HomePageProps, "onShowToast">) {
 
 function InstagramSection() {
   return (
-    <section id="instagram" style={{ background: "white", padding: "72px 60px", textAlign: "center" }}>
+    <section
+      id="instagram"
+      style={{ background: "white", padding: "72px 60px", textAlign: "center" }}
+    >
       <div className="sec-head reveal" style={{ marginBottom: 36 }}>
         <p className="eyebrow">Follow Us</p>
         <div className="divider-line">
@@ -677,7 +824,8 @@ function InstagramSection() {
           alignItems: "center",
           gap: 14,
           textDecoration: "none",
-          background: "linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)",
+          background:
+            "linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)",
           color: "white",
           padding: "16px 36px",
           borderRadius: 50,
@@ -699,8 +847,8 @@ function HomeFooter() {
           <div className="n">Anaya</div>
           <div className="s">Art Corner</div>
           <p>
-            We create timeless art that captures emotions and turns memories into masterpieces. Every piece is made with
-            passion and love.
+            We create timeless art that captures emotions and turns memories into masterpieces.
+            Every piece is made with passion and love.
           </p>
         </div>
         <div className="ft-col">
@@ -725,16 +873,48 @@ function HomeFooter() {
           <h4>Services</h4>
           <ul>
             <li>
-              <a href="#how" onClick={(e) => { e.preventDefault(); scrollToSection("how"); }}>Custom Portraits</a>
+              <a
+                href="#how"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("how");
+                }}
+              >
+                Custom Portraits
+              </a>
             </li>
             <li>
-              <a href="#featured" onClick={(e) => { e.preventDefault(); scrollToSection("featured"); }}>Wildlife Art</a>
+              <a
+                href="#featured"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("featured");
+                }}
+              >
+                Wildlife Art
+              </a>
             </li>
             <li>
-              <a href="#featured" onClick={(e) => { e.preventDefault(); scrollToSection("featured"); }}>Wedding Portraits</a>
+              <a
+                href="#featured"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("featured");
+                }}
+              >
+                Wedding Portraits
+              </a>
             </li>
             <li>
-              <a href="#featured" onClick={(e) => { e.preventDefault(); scrollToSection("featured"); }}>Islamic Calligraphy</a>
+              <a
+                href="#featured"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("featured");
+                }}
+              >
+                Islamic Calligraphy
+              </a>
             </li>
           </ul>
         </div>

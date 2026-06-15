@@ -15,17 +15,63 @@ import {
 
 function BrandLogo() {
   return (
-    <svg viewBox="0 0 120 52" xmlns="http://www.w3.org/2000/svg" width="180" height="52" aria-hidden>
-      <path d="M22 10 A16 16 0 1 0 22 42 A11 11 0 1 1 22 10Z" fill="none" stroke="#C8962A" strokeWidth="1.8" />
-      <line x1="34" y1="8" x2="14" y2="44" stroke="#C8962A" strokeWidth="1.8" strokeLinecap="round" />
-      <path d="M34 8 Q30 20 22 32 Q18 38 14 44" fill="none" stroke="#C8962A" strokeWidth="1" opacity="0.55" />
-      <path d="M14 44 Q20 36 28 22 Q32 14 34 8" fill="none" stroke="#C8962A" strokeWidth="0.9" opacity="0.35" />
+    <svg
+      viewBox="0 0 120 52"
+      xmlns="http://www.w3.org/2000/svg"
+      width="180"
+      height="52"
+      aria-hidden
+    >
+      <path
+        d="M22 10 A16 16 0 1 0 22 42 A11 11 0 1 1 22 10Z"
+        fill="none"
+        stroke="#C8962A"
+        strokeWidth="1.8"
+      />
+      <line
+        x1="34"
+        y1="8"
+        x2="14"
+        y2="44"
+        stroke="#C8962A"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <path
+        d="M34 8 Q30 20 22 32 Q18 38 14 44"
+        fill="none"
+        stroke="#C8962A"
+        strokeWidth="1"
+        opacity="0.55"
+      />
+      <path
+        d="M14 44 Q20 36 28 22 Q32 14 34 8"
+        fill="none"
+        stroke="#C8962A"
+        strokeWidth="0.9"
+        opacity="0.35"
+      />
       <circle cx="14" cy="44" r="1.6" fill="#C8962A" />
       <line x1="48" y1="10" x2="48" y2="42" stroke="#C8962A" strokeWidth="0.8" opacity="0.4" />
-      <text x="56" y="28" fontFamily="'Dancing Script', cursive" fontSize="22" fill="#1a1008" fontWeight="700">
+      <text
+        x="56"
+        y="28"
+        fontFamily="'Dancing Script', cursive"
+        fontSize="22"
+        fill="#1a1008"
+        fontWeight="700"
+      >
         Anaya
       </text>
-      <text x="57" y="39" fontFamily="Inter, sans-serif" fontSize="7" fill="#C8962A" fontWeight="600" letterSpacing="3">
+      <text
+        x="57"
+        y="39"
+        fontFamily="Inter, sans-serif"
+        fontSize="7"
+        fill="#C8962A"
+        fontWeight="600"
+        letterSpacing="3"
+      >
         ART CORNER
       </text>
     </svg>
@@ -97,14 +143,17 @@ export default function ReviewsPage() {
       {/* Main Reviews Container */}
       <main style={{ minHeight: "80vh", background: "var(--cream)", padding: "48px 20px" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          
           {/* Section Head */}
           <div className="sec-head" style={{ marginBottom: 40 }}>
             <p className="eyebrow">All Testimonials</p>
             <div className="divider-line">
-              <h2 style={{ fontFamily: "'Dancing Script', cursive", fontSize: "2.5rem" }}>What Our Customers Say</h2>
+              <h2 style={{ fontFamily: "'Dancing Script', cursive", fontSize: "2.5rem" }}>
+                What Our Customers Say
+              </h2>
             </div>
-            <p style={{ marginTop: 8 }}>Read detailed reviews from our 500+ happy clients nationwide.</p>
+            <p style={{ marginTop: 8 }}>
+              Read detailed reviews from our 500+ happy clients nationwide.
+            </p>
           </div>
 
           {/* Filtering and Sorting Controls */}
@@ -114,7 +163,9 @@ export default function ReviewsPage() {
               <select
                 id="sort-select"
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as "newest" | "oldest" | "highest" | "lowest")}
+                onChange={(e) =>
+                  setSortBy(e.target.value as "newest" | "oldest" | "highest" | "lowest")
+                }
               >
                 <option value="newest">Newest Reviews</option>
                 <option value="oldest">Oldest Reviews</option>
@@ -122,33 +173,43 @@ export default function ReviewsPage() {
                 <option value="lowest">Lowest Rating</option>
               </select>
             </div>
-            <button
-              type="button"
-              className="btn-gold"
-              onClick={() => setSubmitModalOpen(true)}
-            >
+            <button type="button" className="btn-gold" onClick={() => setSubmitModalOpen(true)}>
               Write a Review
             </button>
           </div>
 
           {loading ? (
-            <p style={{ textAlign: "center", color: "var(--muted)", padding: "80px 0" }}>Loading all reviews...</p>
+            <p style={{ textAlign: "center", color: "var(--muted)", padding: "80px 0" }}>
+              Loading all reviews...
+            </p>
           ) : sortedReviews.length === 0 ? (
-            <p style={{ textAlign: "center", color: "var(--muted)", padding: "80px 0" }}>No reviews yet. Be the first customer to share your experience.</p>
+            <p style={{ textAlign: "center", color: "var(--muted)", padding: "80px 0" }}>
+              No reviews yet. Be the first customer to share your experience.
+            </p>
           ) : (
             <div className="rev-grid">
               {sortedReviews.map((review) => (
                 <div key={review.id} className="rev-card">
                   <div className="rev-stars">
                     {Array.from({ length: 5 }).map((_, i) => (
-                      <span key={i} style={{ color: i < review.rating ? "var(--gold)" : "#ddd6cc" }}>
+                      <span
+                        key={i}
+                        style={{ color: i < review.rating ? "var(--gold)" : "#ddd6cc" }}
+                      >
                         ★
                       </span>
                     ))}
                   </div>
                   {/* Note: Full text (no line clamp) on this page */}
                   <p className="rev-text">&ldquo;{review.text}&rdquo;</p>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "flex-end",
+                      width: "100%",
+                    }}
+                  >
                     <div className="reviewer">
                       {review.photo ? (
                         // eslint-disable-next-line @next/next/no-img-element
@@ -168,8 +229,15 @@ export default function ReviewsPage() {
                         <div className="rev-loc">{review.location || "Verified Client"}</div>
                       </div>
                     </div>
-                    <div className="rev-date" style={{ fontSize: "0.68rem", color: "var(--muted)" }}>
-                      {new Date(review.date).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}
+                    <div
+                      className="rev-date"
+                      style={{ fontSize: "0.68rem", color: "var(--muted)" }}
+                    >
+                      {new Date(review.date).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
                     </div>
                   </div>
                 </div>
@@ -184,7 +252,15 @@ export default function ReviewsPage() {
               className="rev-admin-link"
               onClick={() => setAdminPanelOpen(true)}
             >
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ marginRight: 6 }}>
+              <svg
+                viewBox="0 0 24 24"
+                width="12"
+                height="12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                style={{ marginRight: 6 }}
+              >
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                 <path d="M7 11V7a5 5 0 0 1 10 0v4" />
               </svg>
@@ -201,8 +277,8 @@ export default function ReviewsPage() {
             <div className="n">Anaya</div>
             <div className="s">Art Corner</div>
             <p>
-              We create timeless art that captures emotions and turns memories into masterpieces. Every piece is made with
-              passion and love.
+              We create timeless art that captures emotions and turns memories into masterpieces.
+              Every piece is made with passion and love.
             </p>
           </div>
           <div className="ft-col">
@@ -258,7 +334,7 @@ export default function ReviewsPage() {
         onClose={() => setSubmitModalOpen(false)}
         onSuccess={fetchReviews}
       />
-      
+
       <AdminPanel
         open={adminPanelOpen}
         onClose={() => setAdminPanelOpen(false)}

@@ -9,14 +9,17 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "anaya123";
 function verifyAdmin(request: NextRequest, actionName: string): boolean {
   const password = request.headers.get("x-admin-password");
   const isMatch = password === ADMIN_PASSWORD;
-  const ip = (request as NextRequest & { ip?: string }).ip || request.headers.get("x-forwarded-for") || "unknown";
+  const ip =
+    (request as NextRequest & { ip?: string }).ip ||
+    request.headers.get("x-forwarded-for") ||
+    "unknown";
 
   if (!isMatch) {
     console.warn(
       `[AUTH WARNING] Unauthorized admin action attempt: ${actionName}. ` +
-      `IP: ${ip}, ` +
-      `Header present: ${password !== null}, ` +
-      `Password length: ${password ? password.length : 0}`
+        `IP: ${ip}, ` +
+        `Header present: ${password !== null}, ` +
+        `Password length: ${password ? password.length : 0}`,
     );
   } else {
     console.log(`[AUTH INFO] Authorized admin action: ${actionName} from IP: ${ip}`);
@@ -40,7 +43,7 @@ export async function GET(request: NextRequest) {
       } else {
         return NextResponse.json(
           { success: false, error: "Unauthorized: Invalid admin password" },
-          { status: 401 }
+          { status: 401 },
         );
       }
     }
@@ -49,10 +52,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: true, reviews: approvedReviews });
   } catch (error) {
     console.error("API GET Error:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to fetch reviews" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: "Failed to fetch reviews" }, { status: 500 });
   }
 }
 
@@ -67,19 +67,31 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, error: "Name is required" }, { status: 400 });
     }
     if (name.length > 50) {
-      return NextResponse.json({ success: false, error: "Name is too long (max 50 characters)" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "Name is too long (max 50 characters)" },
+        { status: 400 },
+      );
     }
 
     const ratingNum = Number(rating);
     if (isNaN(ratingNum) || ratingNum < 1 || ratingNum > 5) {
-      return NextResponse.json({ success: false, error: "Rating must be between 1 and 5" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "Rating must be between 1 and 5" },
+        { status: 400 },
+      );
     }
 
     if (!text || typeof text !== "string" || text.trim().length === 0) {
-      return NextResponse.json({ success: false, error: "Review message is required" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "Review message is required" },
+        { status: 400 },
+      );
     }
     if (text.length > 500) {
-      return NextResponse.json({ success: false, error: "Review is too long (max 500 characters)" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: "Review is too long (max 500 characters)" },
+        { status: 400 },
+      );
     }
 
     // Optional photo size check if Base64
@@ -87,11 +99,22 @@ export async function POST(request: NextRequest) {
       // rough base64 size check (limit to ~2MB)
       const approxSizeBytes = (photo.length * 3) / 4;
       if (approxSizeBytes > 2 * 1024 * 1024) {
-        return NextResponse.json({ success: false, error: "Photo is too large (max 2MB)" }, { status: 400 });
+        return NextResponse.json(
+          { success: false, error: "Photo is too large (max 2MB)" },
+          { status: 400 },
+        );
       }
     }
 
-    const finalInitials = initials && typeof initials === "string" ? initials.substring(0, 2).toUpperCase() : name.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase();
+    const finalInitials =
+      initials && typeof initials === "string"
+        ? initials.substring(0, 2).toUpperCase()
+        : name
+            .split(" ")
+            .map((n) => n[0])
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
     const finalColor = color && typeof color === "string" ? color : "#c8962a";
 
     // 2. Add Review
@@ -108,10 +131,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true, review: newReview });
   } catch (error) {
     console.error("API POST Error:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to submit review" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: "Failed to submit review" }, { status: 500 });
   }
 }
 
@@ -119,7 +139,10 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     if (!verifyAdmin(request, "PUT_UPDATE_REVIEW")) {
-      return NextResponse.json({ success: false, error: "Unauthorized: Invalid admin password" }, { status: 401 });
+      return NextResponse.json(
+        { success: false, error: "Unauthorized: Invalid admin password" },
+        { status: 401 },
+      );
     }
 
     const body = await request.json();
@@ -139,7 +162,10 @@ export async function PUT(request: NextRequest) {
 
     if (name !== undefined) {
       if (typeof name !== "string" || name.trim().length === 0) {
-        return NextResponse.json({ success: false, error: "Name cannot be empty" }, { status: 400 });
+        return NextResponse.json(
+          { success: false, error: "Name cannot be empty" },
+          { status: 400 },
+        );
       }
       updates.name = name.trim();
     }
@@ -147,14 +173,20 @@ export async function PUT(request: NextRequest) {
     if (rating !== undefined) {
       const ratingNum = Number(rating);
       if (isNaN(ratingNum) || ratingNum < 1 || ratingNum > 5) {
-        return NextResponse.json({ success: false, error: "Rating must be between 1 and 5" }, { status: 400 });
+        return NextResponse.json(
+          { success: false, error: "Rating must be between 1 and 5" },
+          { status: 400 },
+        );
       }
       updates.rating = ratingNum;
     }
 
     if (text !== undefined) {
       if (typeof text !== "string" || text.trim().length === 0) {
-        return NextResponse.json({ success: false, error: "Text cannot be empty" }, { status: 400 });
+        return NextResponse.json(
+          { success: false, error: "Text cannot be empty" },
+          { status: 400 },
+        );
       }
       updates.text = text.trim();
     }
@@ -171,10 +203,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ success: true, review: updated });
   } catch (error) {
     console.error("API PUT Error:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to update review" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: "Failed to update review" }, { status: 500 });
   }
 }
 
@@ -182,7 +211,10 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
   try {
     if (!verifyAdmin(request, "DELETE_REVIEW")) {
-      return NextResponse.json({ success: false, error: "Unauthorized: Invalid admin password" }, { status: 401 });
+      return NextResponse.json(
+        { success: false, error: "Unauthorized: Invalid admin password" },
+        { status: 401 },
+      );
     }
 
     const { searchParams } = new URL(request.url);
@@ -200,9 +232,6 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("API DELETE Error:", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to delete review" },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: "Failed to delete review" }, { status: 500 });
   }
 }

@@ -55,10 +55,82 @@ const BASE_SEED_REVIEWS: Review[] = [
 ];
 
 // Lists for generating realistic reviews
-const FIRST_NAMES_FEMALE = ["Amina", "Zainab", "Fatima", "Ayesha", "Kiran", "Sadia", "Sobia", "Maria", "Nida", "Rida", "Alisha", "Samra", "Hania", "Marium", "Iqra", "Zoya", "Anum", "Areeba", "Nadia", "Saba"];
-const FIRST_NAMES_MALE = ["Hamza", "Bilal", "Usman", "Imran", "Nabeel", "Omer", "Faisal", "Hassan", "Asad", "Kamran", "Zeeshan", "Ahmed", "Mustafa", "Saad", "Waqas", "Junaid", "Farhan", "Adnan", "Haris", "Tariq"];
-const LAST_NAMES = ["Khan", "Raza", "Fatima", "Malik", "Ahmed", "Iqbal", "Sheikh", "Siddiqui", "Bukhari", "Jamil", "Abbasi", "Dar", "Butt", "Shah", "Chaudhry", "Mughal", "Gillani", "Yousaf"];
-const LOCATIONS = ["Lahore, Pakistan", "Karachi, Pakistan", "Islamabad, Pakistan", "Faisalabad, Pakistan", "Rawalpindi, Pakistan", "Peshawar, Pakistan", "Multan, Pakistan", "Sialkot, Pakistan", "Gujranwala, Pakistan", "Quetta, Pakistan"];
+const FIRST_NAMES_FEMALE = [
+  "Amina",
+  "Zainab",
+  "Fatima",
+  "Ayesha",
+  "Kiran",
+  "Sadia",
+  "Sobia",
+  "Maria",
+  "Nida",
+  "Rida",
+  "Alisha",
+  "Samra",
+  "Hania",
+  "Marium",
+  "Iqra",
+  "Zoya",
+  "Anum",
+  "Areeba",
+  "Nadia",
+  "Saba",
+];
+const FIRST_NAMES_MALE = [
+  "Hamza",
+  "Bilal",
+  "Usman",
+  "Imran",
+  "Nabeel",
+  "Omer",
+  "Faisal",
+  "Hassan",
+  "Asad",
+  "Kamran",
+  "Zeeshan",
+  "Ahmed",
+  "Mustafa",
+  "Saad",
+  "Waqas",
+  "Junaid",
+  "Farhan",
+  "Adnan",
+  "Haris",
+  "Tariq",
+];
+const LAST_NAMES = [
+  "Khan",
+  "Raza",
+  "Fatima",
+  "Malik",
+  "Ahmed",
+  "Iqbal",
+  "Sheikh",
+  "Siddiqui",
+  "Bukhari",
+  "Jamil",
+  "Abbasi",
+  "Dar",
+  "Butt",
+  "Shah",
+  "Chaudhry",
+  "Mughal",
+  "Gillani",
+  "Yousaf",
+];
+const LOCATIONS = [
+  "Lahore, Pakistan",
+  "Karachi, Pakistan",
+  "Islamabad, Pakistan",
+  "Faisalabad, Pakistan",
+  "Rawalpindi, Pakistan",
+  "Peshawar, Pakistan",
+  "Multan, Pakistan",
+  "Sialkot, Pakistan",
+  "Gujranwala, Pakistan",
+  "Quetta, Pakistan",
+];
 const AVATAR_COLORS = ["#c8962a", "#2a6496", "#6a3d7a", "#2c6b4e", "#a04040", "#d6782a"];
 
 const PORTRAIT_PHOTOS_FEMALE = [
@@ -71,7 +143,7 @@ const PORTRAIT_PHOTOS_FEMALE = [
   "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=120&h=120&fit=crop",
   "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=120&h=120&fit=crop",
   "https://images.unsplash.com/photo-1554151228-14d9def656e4?w=120&h=120&fit=crop",
-  "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=120&h=120&fit=crop"
+  "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=120&h=120&fit=crop",
 ];
 
 const PORTRAIT_PHOTOS_MALE = [
@@ -84,7 +156,7 @@ const PORTRAIT_PHOTOS_MALE = [
   "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=120&h=120&fit=crop",
   "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop",
   "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?w=120&h=120&fit=crop",
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=120&h=120&fit=crop"
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=120&h=120&fit=crop",
 ];
 
 const REVIEW_TEMPLATES = [
@@ -100,8 +172,8 @@ const REVIEW_TEMPLATES = [
       "Ordered a portrait for my husband's birthday and he was absolutely thrilled! The likeness is incredible. Thank you for making his day special.",
       "The calligraphy painting of Ayah Al-Kursi is gorgeous. The strokes are clean, and the canvas quality is premium. Definitely ordering again.",
       "Stunning wildlife painting! The horse sketch looks so dynamic and realistic. A true artist's touch is visible in every single brush stroke.",
-      "Amazing talent! The pencil drawing of my family was completed ahead of schedule and the revisions I requested were made very quickly and politely."
-    ]
+      "Amazing talent! The pencil drawing of my family was completed ahead of schedule and the revisions I requested were made very quickly and politely.",
+    ],
   },
   {
     rating: 5,
@@ -115,8 +187,8 @@ const REVIEW_TEMPLATES = [
       "Very neat and beautiful work. The sketch was ready within a week as promised. Will definitely order more.",
       "Highly professional and gifted artist. The custom painting of my cat was so sweet and realistic.",
       "Superb quality and friendly communication. Very patient with my custom size requirements.",
-      "The oil painting is breathtaking. The texture and depth of colors are amazing. Exceeded all my expectations."
-    ]
+      "The oil painting is breathtaking. The texture and depth of colors are amazing. Exceeded all my expectations.",
+    ],
   },
   {
     rating: 4,
@@ -125,30 +197,30 @@ const REVIEW_TEMPLATES = [
       "Good quality sketch and nice framing. The communication on WhatsApp was quick. Will recommend to others.",
       "Beautiful calligraphy. The canvas is sturdy and colors are great. Just wish the border spacing was slightly wider, but still looks amazing.",
       "Really liked the pencil sketch. The likeness is good. Overall satisfied with the work and service.",
-      "Nice artwork, the detailing on the face is done very well. Received it in safe packaging. Good value for money."
-    ]
-  }
+      "Nice artwork, the detailing on the face is done very well. Received it in safe packaging. Good value for money.",
+    ],
+  },
 ];
 
 // Generator function to generate 65 additional reviews (for ~68 total)
 function generateSampleReviews(): Review[] {
   const reviews: Review[] = [...BASE_SEED_REVIEWS];
   const now = new Date();
-  
+
   // Generate 65 reviews to get 68 reviews total
   for (let i = 0; i < 65; i++) {
     const isFemale = i % 2 === 0;
-    const firstName = isFemale 
+    const firstName = isFemale
       ? FIRST_NAMES_FEMALE[i % FIRST_NAMES_FEMALE.length]
       : FIRST_NAMES_MALE[i % FIRST_NAMES_MALE.length];
-    
+
     // Mix and match last names, locations, and colors
     const lastName = LAST_NAMES[(i * 3) % LAST_NAMES.length];
     const name = `${firstName} ${lastName}`;
     const initials = (firstName[0] + lastName[0]).toUpperCase();
     const color = AVATAR_COLORS[(i * 7) % AVATAR_COLORS.length];
     const location = LOCATIONS[(i * 11) % LOCATIONS.length];
-    
+
     // Photo allocation (roughly 60% of reviews get a photo)
     let photo: string | undefined = undefined;
     if (i % 5 !== 0) {
@@ -156,17 +228,17 @@ function generateSampleReviews(): Review[] {
         ? PORTRAIT_PHOTOS_FEMALE[Math.floor((i / 2) % PORTRAIT_PHOTOS_FEMALE.length)]
         : PORTRAIT_PHOTOS_MALE[Math.floor((i / 2) % PORTRAIT_PHOTOS_MALE.length)];
     }
-    
+
     // Select review text based on template pattern
     const templateCategory = REVIEW_TEMPLATES[i % REVIEW_TEMPLATES.length];
     const rating = templateCategory.rating;
     const textsList = templateCategory.texts;
     const text = textsList[(i * 13) % textsList.length];
-    
+
     // Stagger dates realistically over the last 12 months
     const dateOffsetDays = Math.floor((i * 365) / 65) + 1; // 1 to 365 days ago
     const reviewDate = new Date(now.getTime() - dateOffsetDays * 24 * 60 * 60 * 1000);
-    
+
     reviews.push({
       id: `sample-${i}`,
       name,
@@ -177,10 +249,10 @@ function generateSampleReviews(): Review[] {
       date: reviewDate.toISOString(),
       initials,
       color,
-      location
+      location,
     });
   }
-  
+
   return reviews;
 }
 
@@ -189,7 +261,10 @@ const SEED_REVIEWS = generateSampleReviews();
 
 // Initialize Supabase Client if env variables are available
 const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+  process.env.SUPABASE_ANON_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 const isSupabaseConfigured = !!(supabaseUrl && supabaseKey);
 const supabase = isSupabaseConfigured ? createClient(supabaseUrl!, supabaseKey!) : null;
@@ -245,9 +320,9 @@ export async function getReviews(): Promise<Review[]> {
       if (data && data.length > 0) {
         return data as Review[];
       }
-      
+
       // If table is empty, seed it in Supabase with all 68 generated reviews
-      const seedData = SEED_REVIEWS.map(r => ({
+      const seedData = SEED_REVIEWS.map((r) => ({
         id: r.id,
         name: r.name,
         rating: r.rating,
@@ -257,9 +332,9 @@ export async function getReviews(): Promise<Review[]> {
         date: r.date,
         initials: r.initials,
         color: r.color,
-        location: r.location || null
+        location: r.location || null,
       }));
-      
+
       const { error: seedError } = await supabase.from("reviews").insert(seedData);
       if (!seedError) {
         return SEED_REVIEWS;
@@ -276,7 +351,10 @@ export async function getReviews(): Promise<Review[]> {
 export async function addReview(review: Omit<Review, "id" | "date" | "status">): Promise<Review> {
   const newReview: Review = {
     ...review,
-    id: typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11),
+    id:
+      typeof crypto !== "undefined" && crypto.randomUUID
+        ? crypto.randomUUID()
+        : Math.random().toString(36).substring(2, 11),
     date: new Date().toISOString(),
     status: "pending", // Always pending moderation initially
   };
@@ -293,7 +371,7 @@ export async function addReview(review: Omit<Review, "id" | "date" | "status">):
         date: newReview.date,
         initials: newReview.initials,
         color: newReview.color,
-        location: newReview.location || null
+        location: newReview.location || null,
       });
 
       if (!error) {
@@ -316,7 +394,7 @@ export async function updateReview(id: string, updates: Partial<Review>): Promis
   if (supabase) {
     try {
       const dbUpdates: Partial<Review> = { ...updates };
-      
+
       const { data, error } = await supabase
         .from("reviews")
         .update(dbUpdates)

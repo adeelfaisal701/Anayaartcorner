@@ -12,7 +12,13 @@ interface OrderModalProps {
   onShowToast: (message: string, type?: "success" | "info") => void;
 }
 
-export function OrderModal({ open, title, defaultSize = "", onClose, onShowToast }: OrderModalProps) {
+export function OrderModal({
+  open,
+  title,
+  defaultSize = "",
+  onClose,
+  onShowToast,
+}: OrderModalProps) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [size, setSize] = useState(defaultSize);
@@ -144,7 +150,14 @@ export function OrderModal({ open, title, defaultSize = "", onClose, onShowToast
               role="button"
               tabIndex={0}
             >
-              <p style={{ margin: "8px 0 4px", fontSize: ".85rem", color: "#3a2e1a", fontWeight: 600 }}>
+              <p
+                style={{
+                  margin: "8px 0 4px",
+                  fontSize: ".85rem",
+                  color: "#3a2e1a",
+                  fontWeight: 600,
+                }}
+              >
                 Click to upload your photo
               </p>
               <p style={{ fontSize: ".72rem", color: "#7a6a50" }}>JPG, PNG, WEBP — max 10MB</p>
@@ -188,7 +201,16 @@ export function OrderModal({ open, title, defaultSize = "", onClose, onShowToast
                 >
                   ×
                 </button>
-                <p style={{ fontSize: ".72rem", color: "#7a6a50", marginTop: 6, textAlign: "center" }}>{photoName}</p>
+                <p
+                  style={{
+                    fontSize: ".72rem",
+                    color: "#7a6a50",
+                    marginTop: 6,
+                    textAlign: "center",
+                  }}
+                >
+                  {photoName}
+                </p>
               </div>
             ) : null}
           </div>

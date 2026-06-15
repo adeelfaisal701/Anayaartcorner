@@ -42,39 +42,42 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
   }, [open]);
 
   // Load all reviews (with status) if authenticated
-  const fetchAllReviews = useCallback(async (adminPassword = password) => {
-    if (!adminPassword) return;
-    setLoading(true);
-    try {
-      const response = await fetch("/api/reviews", {
-        headers: {
-          "x-admin-password": adminPassword,
-        },
-      });
-      const data = await response.json();
-      if (data.success) {
-        setReviews(data.reviews);
-        setAuthenticated(true);
-        if (typeof window !== "undefined") {
-          sessionStorage.setItem("admin_password", adminPassword);
-          sessionStorage.setItem("admin_authenticated", "true");
+  const fetchAllReviews = useCallback(
+    async (adminPassword = password) => {
+      if (!adminPassword) return;
+      setLoading(true);
+      try {
+        const response = await fetch("/api/reviews", {
+          headers: {
+            "x-admin-password": adminPassword,
+          },
+        });
+        const data = await response.json();
+        if (data.success) {
+          setReviews(data.reviews);
+          setAuthenticated(true);
+          if (typeof window !== "undefined") {
+            sessionStorage.setItem("admin_password", adminPassword);
+            sessionStorage.setItem("admin_authenticated", "true");
+          }
+        } else {
+          console.error("Fetch admin reviews failed:", data.error || "Unknown error");
+          toast.error(data.error || "Authentication failed.");
+          setAuthenticated(false);
+          if (typeof window !== "undefined") {
+            sessionStorage.removeItem("admin_password");
+            sessionStorage.removeItem("admin_authenticated");
+          }
         }
-      } else {
-        console.error("Fetch admin reviews failed:", data.error || "Unknown error");
-        toast.error(data.error || "Authentication failed.");
-        setAuthenticated(false);
-        if (typeof window !== "undefined") {
-          sessionStorage.removeItem("admin_password");
-          sessionStorage.removeItem("admin_authenticated");
-        }
+      } catch (error) {
+        console.error("Fetch admin reviews error:", error);
+        toast.error("Error connecting to admin api.");
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Fetch admin reviews error:", error);
-      toast.error("Error connecting to admin api.");
-    } finally {
-      setLoading(false);
-    }
-  }, [password]);
+    },
+    [password],
+  );
 
   // Re-fetch reviews whenever the panel is opened and authenticated
   useEffect(() => {
@@ -121,7 +124,8 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to permanently delete this review? This cannot be undone.")) return;
+    if (!confirm("Are you sure you want to permanently delete this review? This cannot be undone."))
+      return;
     try {
       const response = await fetch(`/api/reviews?id=${id}`, {
         method: "DELETE",
@@ -192,7 +196,10 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
         fetchAllReviews();
         onRefreshReviews();
       } else {
-        console.error(`Edit save failed for review ${editingReview.id}:`, data.error || "Unknown error");
+        console.error(
+          `Edit save failed for review ${editingReview.id}:`,
+          data.error || "Unknown error",
+        );
         toast.error(data.error || "Failed to update review.");
       }
     } catch (error) {
@@ -228,7 +235,11 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
 
         {!authenticated ? (
           // LOGIN SCREEN
-          <form onSubmit={handleLogin} className="modal-body" style={{ padding: "40px 24px", textAlign: "center" }}>
+          <form
+            onSubmit={handleLogin}
+            className="modal-body"
+            style={{ padding: "40px 24px", textAlign: "center" }}
+          >
             <p style={{ fontSize: "0.9rem", color: "var(--muted)", marginBottom: 20 }}>
               Access is restricted. Please enter the administrator password.
             </p>
@@ -242,17 +253,28 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
                 required
               />
             </div>
-            <button type="submit" className="btn-gold" disabled={loading} style={{ padding: "10px 30px" }}>
+            <button
+              type="submit"
+              className="btn-gold"
+              disabled={loading}
+              style={{ padding: "10px 30px" }}
+            >
               {loading ? "Verifying..." : "Verify Password"}
             </button>
           </form>
         ) : editingReview ? (
           // EDIT REVIEW FORM
           <form onSubmit={handleSaveEdit} className="modal-body" style={{ overflowY: "auto" }}>
-            <h4 style={{ fontFamily: "Playfair Display, serif", fontSize: "1.2rem", marginBottom: 16 }}>
+            <h4
+              style={{
+                fontFamily: "Playfair Display, serif",
+                fontSize: "1.2rem",
+                marginBottom: 16,
+              }}
+            >
               Edit Review Details
             </h4>
-            
+
             <div className="f-group" style={{ marginBottom: 12 }}>
               <label>Customer Name</label>
               <input
@@ -307,7 +329,9 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
           </form>
         ) : (
           // ADMIN DASHBOARD
-          <div style={{ display: "flex", flexDirection: "column", height: "100%", overflow: "hidden" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", height: "100%", overflow: "hidden" }}
+          >
             {/* TABS HEADER */}
             <div
               style={{
@@ -361,7 +385,10 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
             </div>
 
             {/* REVIEWS LIST */}
-            <div className="modal-body" style={{ overflowY: "auto", flex: 1, padding: "20px 24px" }}>
+            <div
+              className="modal-body"
+              style={{ overflowY: "auto", flex: 1, padding: "20px 24px" }}
+            >
               {loading ? (
                 <p style={{ textAlign: "center", color: "var(--muted)" }}>Loading reviews...</p>
               ) : filteredReviews.length === 0 ? (
@@ -384,14 +411,26 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
                       }}
                     >
                       {/* REVIEW HEADER */}
-                      <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          flexWrap: "wrap",
+                          gap: 8,
+                        }}
+                      >
                         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                           {review.photo ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img
                               src={review.photo}
                               alt={review.name}
-                              style={{ width: 32, height: 32, borderRadius: "50%", objectFit: "cover" }}
+                              style={{
+                                width: 32,
+                                height: 32,
+                                borderRadius: "50%",
+                                objectFit: "cover",
+                              }}
                             />
                           ) : (
                             <div
@@ -412,11 +451,14 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
                             </div>
                           )}
                           <div>
-                            <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--dark)" }}>
+                            <div
+                              style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--dark)" }}
+                            >
                               {review.name}
                             </div>
                             <div style={{ fontSize: "0.7rem", color: "var(--muted)" }}>
-                              {review.location || "No Location"} • {new Date(review.date).toLocaleDateString()}
+                              {review.location || "No Location"} •{" "}
+                              {new Date(review.date).toLocaleDateString()}
                             </div>
                           </div>
                         </div>
@@ -429,7 +471,14 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
                       </div>
 
                       {/* TEXT */}
-                      <p style={{ fontSize: "0.8rem", color: "var(--text)", fontStyle: "italic", margin: 0 }}>
+                      <p
+                        style={{
+                          fontSize: "0.8rem",
+                          color: "var(--text)",
+                          fontStyle: "italic",
+                          margin: 0,
+                        }}
+                      >
                         &ldquo;{review.text}&rdquo;
                       </p>
 
@@ -517,7 +566,7 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
                 </div>
               )}
             </div>
-            
+
             {/* FOOTER ACTIONS */}
             <div
               style={{
@@ -544,7 +593,12 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
               >
                 Log Out
               </button>
-              <button type="button" className="btn-gold" onClick={onClose} style={{ padding: "8px 24px" }}>
+              <button
+                type="button"
+                className="btn-gold"
+                onClick={onClose}
+                style={{ padding: "8px 24px" }}
+              >
                 Close Panel
               </button>
             </div>
