@@ -225,7 +225,7 @@ function CategoriesSection() {
           </h2>
         </div>
       </div>
-      <div className="cats reveal">
+      <div className="cats">
         {categories.map((cat) => (
           <a
             key={cat.label}
@@ -254,7 +254,7 @@ function FeaturedSection({ onOpenModal }: Pick<HomePageProps, "onOpenModal">) {
           <h2>Featured Paintings</h2>
         </div>
       </div>
-      <div className="art-grid reveal">
+      <div className="art-grid">
         {artworks.map((art) => (
           <div
             key={art.name}
@@ -298,7 +298,7 @@ function PricingSection({ onOpenModal }: Pick<HomePageProps, "onOpenModal">) {
           <h2>Size &amp; Price Guide</h2>
         </div>
       </div>
-      <div className="price-cards reveal">
+      <div className="price-cards">
         {pricingTiers.map((tier) => (
           <div key={tier.size} className={`price-card${tier.featured ? " featured-price" : ""}`}>
             {tier.featured ? <span className="price-badge">Most Popular</span> : null}
