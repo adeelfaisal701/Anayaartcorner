@@ -1440,6 +1440,10 @@ footer {
 
 /* â”€â”€ RESPONSIVE â”€â”€ */
 @media (max-width: 960px) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
   nav {
     padding: 0 20px;
   }
