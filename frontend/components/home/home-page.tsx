@@ -19,7 +19,6 @@ import {
   categories,
   homeImage,
   pricingTiers,
-  reviews,
   stats,
   steps,
 } from "@/lib/home/data";
@@ -359,7 +358,7 @@ function ReviewsSection() {
   const [adminPanelOpen, setAdminPanelOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(3);
 
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     try {
       const response = await fetch("/api/reviews");
       const data = await response.json();
@@ -371,11 +370,14 @@ function ReviewsSection() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchReviews();
-  }, []);
+    const timer = setTimeout(() => {
+      fetchReviews();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [fetchReviews]);
 
   const sortedReviews = [...reviewsList].sort((a, b) => {
     if (sortBy === "highest") return b.rating - a.rating;
@@ -403,7 +405,7 @@ function ReviewsSection() {
           <select
             id="sort-select"
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as any)}
+            onChange={(e) => setSortBy(e.target.value as "newest" | "oldest" | "highest" | "lowest")}
           >
             <option value="newest">Newest Reviews</option>
             <option value="oldest">Oldest Reviews</option>

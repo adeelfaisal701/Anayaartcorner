@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { SubmitReviewModal } from "@/components/home/submit-review-modal";
 import { AdminPanel } from "@/components/home/admin-panel";
@@ -39,7 +39,7 @@ export default function ReviewsPage() {
   const [submitModalOpen, setSubmitModalOpen] = useState(false);
   const [adminPanelOpen, setAdminPanelOpen] = useState(false);
 
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     try {
       const response = await fetch("/api/reviews");
       const data = await response.json();
@@ -51,11 +51,14 @@ export default function ReviewsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchReviews();
-  }, []);
+    const timer = setTimeout(() => {
+      fetchReviews();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [fetchReviews]);
 
   const sortedReviews = [...reviewsList].sort((a, b) => {
     if (sortBy === "highest") return b.rating - a.rating;
@@ -111,7 +114,7 @@ export default function ReviewsPage() {
               <select
                 id="sort-select"
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
+                onChange={(e) => setSortBy(e.target.value as "newest" | "oldest" | "highest" | "lowest")}
               >
                 <option value="newest">Newest Reviews</option>
                 <option value="oldest">Oldest Reviews</option>

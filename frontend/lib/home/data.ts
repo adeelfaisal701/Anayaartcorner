@@ -1,4 +1,4 @@
-export const homeImage = (index: number) => `/images/home/img-${index}.png`;
+export const homeImage = (index: number) => `/images/home/img-${index}.webp`;
 
 export const categories = [
   { label: "Custom Portraits", image: homeImage(4) },
@@ -29,6 +29,9 @@ export const artworks = [
   { name: "Group Hunting Scene", medium: "Oil on Canvas", price: "Rs. 20,000+", badge: "UNIQUE", image: homeImage(26) },
   { name: "Baby Portrait", medium: "Color Pencil on Paper", price: "Rs. 4,000+", badge: "POPULAR", image: homeImage(27) },
   { name: "Historical Portrait", medium: "Oil on Canvas", price: "Rs. 8,000+", badge: "", image: homeImage(28) },
+  { name: "Golden Tap Water Fountain", medium: "Handcrafted Resin Fountain", price: "Rs. 20,000", badge: "NEW", image: homeImage(31) },
+  { name: "Bear & Forest Waterfall", medium: "Mixed Media Diorama", price: "Rs. 20,000", badge: "NEW", image: homeImage(32) },
+  { name: "Sunset Leopard Diorama", medium: "3D Diorama Frame", price: "Rs. 20,000", badge: "NEW", image: homeImage(33) },
 ];
 
 export const pricingTiers = [

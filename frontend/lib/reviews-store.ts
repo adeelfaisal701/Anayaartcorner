@@ -315,7 +315,7 @@ export async function addReview(review: Omit<Review, "id" | "date" | "status">):
 export async function updateReview(id: string, updates: Partial<Review>): Promise<Review | null> {
   if (supabase) {
     try {
-      const dbUpdates: any = { ...updates };
+      const dbUpdates: Partial<Review> = { ...updates };
       
       const { data, error } = await supabase
         .from("reviews")

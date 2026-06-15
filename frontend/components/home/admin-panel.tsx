@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "sonner";
 import { Review } from "@/lib/reviews-store";
 
@@ -11,8 +11,18 @@ interface AdminPanelProps {
 }
 
 export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps) {
-  const [password, setPassword] = useState("");
-  const [authenticated, setAuthenticated] = useState(false);
+  const [password, setPassword] = useState(() => {
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem("admin_password") || "";
+    }
+    return "";
+  });
+  const [authenticated, setAuthenticated] = useState(() => {
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem("admin_authenticated") === "true";
+    }
+    return false;
+  });
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<"pending" | "approved" | "rejected">("pending");
@@ -32,7 +42,8 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
   }, [open]);
 
   // Load all reviews (with status) if authenticated
-  const fetchAllReviews = async (adminPassword = password) => {
+  const fetchAllReviews = useCallback(async (adminPassword = password) => {
+    if (!adminPassword) return;
     setLoading(true);
     try {
       const response = await fetch("/api/reviews", {
@@ -44,9 +55,18 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
       if (data.success) {
         setReviews(data.reviews);
         setAuthenticated(true);
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("admin_password", adminPassword);
+          sessionStorage.setItem("admin_authenticated", "true");
+        }
       } else {
+        console.error("Fetch admin reviews failed:", data.error || "Unknown error");
         toast.error(data.error || "Authentication failed.");
         setAuthenticated(false);
+        if (typeof window !== "undefined") {
+          sessionStorage.removeItem("admin_password");
+          sessionStorage.removeItem("admin_authenticated");
+        }
       }
     } catch (error) {
       console.error("Fetch admin reviews error:", error);
@@ -54,7 +74,17 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
     } finally {
       setLoading(false);
     }
-  };
+  }, [password]);
+
+  // Re-fetch reviews whenever the panel is opened and authenticated
+  useEffect(() => {
+    if (open && authenticated && password) {
+      const timer = setTimeout(() => {
+        fetchAllReviews(password);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, [open, authenticated, password, fetchAllReviews]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,9 +111,11 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
         fetchAllReviews();
         onRefreshReviews();
       } else {
+        console.error(`Status update failed for review ${id}:`, data.error || "Unknown error");
         toast.error(data.error || "Failed to update review status.");
       }
     } catch (error) {
+      console.error(`Status update error for review ${id}:`, error);
       toast.error("Something went wrong.");
     }
   };
@@ -103,9 +135,11 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
         fetchAllReviews();
         onRefreshReviews();
       } else {
+        console.error(`Delete failed for review ${id}:`, data.error || "Unknown error");
         toast.error(data.error || "Failed to delete review.");
       }
     } catch (error) {
+      console.error(`Delete error for review ${id}:`, error);
       toast.error("Something went wrong.");
     }
   };
@@ -158,9 +192,11 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
         fetchAllReviews();
         onRefreshReviews();
       } else {
+        console.error(`Edit save failed for review ${editingReview.id}:`, data.error || "Unknown error");
         toast.error(data.error || "Failed to update review.");
       }
     } catch (error) {
+      console.error(`Edit save error for review ${editingReview.id}:`, error);
       toast.error("Something went wrong.");
     }
   };
@@ -499,6 +535,10 @@ export function AdminPanel({ open, onClose, onRefreshReviews }: AdminPanelProps)
                 onClick={() => {
                   setAuthenticated(false);
                   setPassword("");
+                  if (typeof window !== "undefined") {
+                    sessionStorage.removeItem("admin_password");
+                    sessionStorage.removeItem("admin_authenticated");
+                  }
                 }}
                 style={{ padding: "8px 16px" }}
               >

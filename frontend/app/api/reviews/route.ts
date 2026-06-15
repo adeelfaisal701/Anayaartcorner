@@ -9,7 +9,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "anaya123";
 function verifyAdmin(request: NextRequest, actionName: string): boolean {
   const password = request.headers.get("x-admin-password");
   const isMatch = password === ADMIN_PASSWORD;
-  const ip = request.ip || request.headers.get("x-forwarded-for") || "unknown";
+  const ip = (request as NextRequest & { ip?: string }).ip || request.headers.get("x-forwarded-for") || "unknown";
 
   if (!isMatch) {
     console.warn(
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
 
     const approvedReviews = reviews.filter((r) => r.status === "approved");
     return NextResponse.json({ success: true, reviews: approvedReviews });
-  } catch (error: any) {
+  } catch (error) {
     console.error("API GET Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to fetch reviews" },
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({ success: true, review: newReview });
-  } catch (error: any) {
+  } catch (error) {
     console.error("API POST Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to submit review" },
@@ -169,7 +169,7 @@ export async function PUT(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true, review: updated });
-  } catch (error: any) {
+  } catch (error) {
     console.error("API PUT Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to update review" },
@@ -198,7 +198,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     console.error("API DELETE Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to delete review" },
